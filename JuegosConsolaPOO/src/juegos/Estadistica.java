@@ -30,6 +30,11 @@ public class Estadistica {
     public String getResultado() { return resultado; }
     public boolean isGano()      { return gano; }
 
+    /** Convierte este resultado en una Puntuacion que se puede comparar. */
+    public Puntuacion getPuntuacion() {
+        return new Puntuacion(jugador.getNombre(), juego, puntos, segundos);
+    }
+
     public void marcarGanador() {
         this.gano = true;
         jugador.sumarVictoria();

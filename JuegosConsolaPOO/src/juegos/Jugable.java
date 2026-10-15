@@ -14,6 +14,10 @@ public interface Jugable {
     /** Nombre que se muestra en el menú. */
     String getNombre();
 
-    /** Método inicial fijo: arranca la partida completa del juego. */
-    void start();
+    /**
+     * Método inicial fijo: arranca la partida completa del juego.
+     *
+     * @return la mejor puntuación obtenida en la partida
+     */
+    Puntuacion start();
 }

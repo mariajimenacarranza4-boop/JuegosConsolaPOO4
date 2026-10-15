@@ -29,9 +29,9 @@ public abstract class Juego implements Jugable {
     /** Juega el turno completo de un jugador y devuelve sus estadísticas. */
     protected abstract Estadistica jugarTurno(Jugador jugador);
 
-    /** Método inicial fijo: partida completa por turnos. */
+    /** Método inicial fijo: partida completa por turnos. Devuelve la puntuación ganadora. */
     @Override
-    public void start() {
+    public Puntuacion start() {
         Scanner sc = sesion.getScanner();
         List<Jugador> jugadores = sesion.getJugadores();
 
@@ -66,14 +66,15 @@ public abstract class Juego implements Jugable {
 
         System.out.println("\nPresione ENTER para volver al menú...");
         sc.nextLine();
+
+        return ganadora.getPuntuacion();
     }
 
-    /** Gana quien tenga más puntos; si empatan, el que lo hizo en menos tiempo. */
+    /** Gana la mejor Puntuacion según comparar(): más puntos y, si empatan, menos tiempo. */
     private Estadistica elegirGanador(List<Estadistica> partida) {
         Estadistica mejor = partida.get(0);
         for (Estadistica e : partida) {
-            if (e.getPuntos() > mejor.getPuntos()
-                    || (e.getPuntos() == mejor.getPuntos() && e.getSegundos() < mejor.getSegundos())) {
+            if (e.getPuntuacion().comparar(mejor.getPuntuacion()) > 0) {
                 mejor = e;
             }
         }

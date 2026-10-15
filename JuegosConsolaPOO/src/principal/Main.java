@@ -1,6 +1,7 @@
 package principal;
 
 import juegos.Jugable;
+import juegos.Puntuacion;
 import juegos.Sesion;
 import juegos.juego1.JuegoSnake;
 import juegos.juego2.JuegoPacman;
@@ -69,6 +70,7 @@ public class Main {
             System.out.println("Primero hay que registrar a los jugadores.");
             sesion.registrarJugadores();
         }
-        juego.start();
+        Puntuacion mejor = juego.start();
+        System.out.println("Mejor puntuación de la partida: " + mejor);
     }
 }
