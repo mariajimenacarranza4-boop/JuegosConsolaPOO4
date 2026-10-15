@@ -1,4 +1,9 @@
 package juegos;
+/**
+ * La puntuación final que obtuvo un jugador
+ * Implementa PuntComparable para poder compararse con otras puntuaciones
+ * calcular el Top 3 de cada juego.
+ */
 
 public class Puntuacion implements PuntComparable {
     private final String jugador;
@@ -17,6 +22,11 @@ public class Puntuacion implements PuntComparable {
     public String getJuego()    { return juego; }
     public int getPuntos()      { return puntos; }
     public double getSegundos() { return segundos; }
+
+    /**
+     * Gana la que tenga más puntos y si empatan en puntos,
+     * gana la que se hizo en menos tiempo.
+     */
 
     @Override
     public int comparar(Puntuacion otra) {
