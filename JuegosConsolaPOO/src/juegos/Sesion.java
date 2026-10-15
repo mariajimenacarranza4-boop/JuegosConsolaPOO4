@@ -13,9 +13,15 @@ public class Sesion {
     private final Scanner scanner;
     private final List<Jugador> jugadores = new ArrayList<>();
     private final Historial historial = new Historial();
+    private final TablaTop3 top3 = new TablaTop3();
 
     public Sesion(Scanner scanner) {
         this.scanner = scanner;
+        top3.cargarEscenarioFicticio();
+    }
+
+    public TablaTop3 getTop3() {
+        return top3;
     }
 
     public Scanner getScanner() {

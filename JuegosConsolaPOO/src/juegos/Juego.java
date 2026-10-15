@@ -48,6 +48,13 @@ public abstract class Juego implements Jugable {
 
             System.out.printf("%n%s terminó: %s con %d puntos, %d movimientos en %.1f segundos.%n",
                     j.getNombre(), e.getResultado(), e.getPuntos(), e.getMovimientos(), e.getSegundos());
+
+            // Al terminar el turno se registra la estadística y se compara para el Top 3
+            int puesto = sesion.getTop3().registrar(e.getPuntuacion());
+            if (puesto > 0) {
+                System.out.println("¡Nuevo récord! " + j.getNombre() + " entró al Top 3 de "
+                        + nombre + " en el puesto " + puesto + ".");
+            }
         }
 
         Estadistica ganadora = elegirGanador(partida);
