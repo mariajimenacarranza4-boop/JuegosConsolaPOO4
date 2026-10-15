@@ -35,42 +35,68 @@ public class Main {
 
         boolean salir = false;
         while (!salir) {
-            int opcionEstadisticas = juegos.size() + 2;
-            int opcionSalir = juegos.size() + 3;
-
             System.out.println("\n========== MENÚ DE JUEGOS ==========");
             System.out.println(" 1. Registrar jugadores");
-            for (int i = 0; i < juegos.size(); i++) {
-                System.out.println(" " + (i + 2) + ". Jugar " + juegos.get(i).getNombre());
-            }
-            System.out.println(" " + opcionEstadisticas + ". Ver estadísticas");
-            System.out.println(" " + opcionSalir + ". Salir");
+            System.out.println(" 2. Lanzar juego");
+            System.out.println(" 3. Ver estadísticas");
+            System.out.println(" 4. Salir");
             System.out.println("====================================");
             System.out.println("Jugadores: " + sesion.nombresJugadores());
 
-            int opcion = sesion.leerEntero("Opción: ", 1, opcionSalir);
+            int opcion = sesion.leerEntero("Opción: ", 1, 4);
 
-            if (opcion == 1) {
-                sesion.registrarJugadores();
-            } else if (opcion == opcionEstadisticas) {
-                sesion.getHistorial().mostrar();
-            } else if (opcion == opcionSalir) {
-                salir = true;
-            } else {
-                Jugable juego = juegos.get(opcion - 2);   // el juego elegido, de tipo Jugable
-                lanzar(juego, sesion);
+            switch (opcion) {
+                case 1:
+                    sesion.registrarJugadores();
+                    break;
+                case 2:
+                    lanzarJuego(juegos, sesion);
+                    break;
+                case 3:
+                    verEstadisticas(juegos, sesion);
+                    break;
+                default:
+                    salir = true;
+                    break;
             }
         }
         System.out.println("¡Gracias por jugar!");
     }
 
-    /** Lanza cualquier juego Jugable llamando a su método fijo start(). */
-    private static void lanzar(Jugable juego, Sesion sesion) {
+    /**
+     * Opción "Lanzar juego": muestra los juegos disponibles y lanza el elegido
+     * llamando a su método fijo start(). Funciona con cualquier Jugable.
+     */
+    private static void lanzarJuego(List<Jugable> juegos, Sesion sesion) {
+        System.out.println("\n----- LANZAR JUEGO -----");
+        for (int i = 0; i < juegos.size(); i++) {
+            System.out.println(" " + (i + 1) + ". " + juegos.get(i).getNombre());
+        }
+        System.out.println(" 0. Volver");
+        int opcion = sesion.leerEntero("¿Qué juego? ", 0, juegos.size());
+        if (opcion == 0) {
+            return;
+        }
+
         if (!sesion.hayJugadores()) {
             System.out.println("Primero hay que registrar a los jugadores.");
             sesion.registrarJugadores();
         }
-        Puntuacion mejor = juego.start();
+
+        Jugable juego = juegos.get(opcion - 1);   // el juego elegido, de tipo Jugable
+        Puntuacion mejor = juego.start();          // aquí se usa el start()
         System.out.println("Mejor puntuación de la partida: " + mejor);
+    }
+
+    /**
+     * Opción "Ver estadísticas": muestra el Top 3 actual de cada juego
+     * (incluye el escenario ficticio) y el historial de partidas de esta sesión.
+     */
+    private static void verEstadisticas(List<Jugable> juegos, Sesion sesion) {
+        System.out.println("\n=============== ESTADÍSTICAS ===============");
+        for (Jugable juego : juegos) {
+            sesion.getTop3().mostrar(juego.getNombre());
+        }
+        sesion.getHistorial().mostrar();
     }
 }
